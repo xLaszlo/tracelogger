@@ -9,7 +9,7 @@ def second_test_function(x):
     return y
 
 
-@tracelogger()
+@tracelogger(names=['b', 'k'])
 def first_test_function(a, b):
     c = a + b
     for k in range(5):
