@@ -64,3 +64,5 @@ Returning from: second_test_function() to: first_test_function()
     return a, b, c                       locals: b=26, k=4
 Returning from: first_test_function() to: None
 ```
+
+Join the [Code Quality for Data Science (CQ4DS) Discord channel](https://discord.com/invite/8uUZNMCad2) for feedback.
