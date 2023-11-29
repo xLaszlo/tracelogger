@@ -1,6 +1,7 @@
 # tracelogger
 
-Tag your functions to be logged line-by-line with the `@tracelogger`, optionally add a list of names to print each time
+Tag your functions with the `@tracelogger` decorator to be logged line-by-line.
+Optionally add a list of names of local variables whose values will be printed with each line.
 
 ```
 @tracelogger
@@ -23,7 +24,7 @@ def first_test_function(a, b):
 a, b, c = first_test_function(a=10, b=20)
 ```
 
-Will result in:
+This will print the following:
 
 ```
 Entering function: first_test_function
@@ -66,3 +67,9 @@ Returning from: first_test_function() to: None
 ```
 
 Join the [Code Quality for Data Science (CQ4DS) Discord channel](https://discord.com/invite/8uUZNMCad2) for feedback.
+
+I used the following StackOverflow threads as sources, many thanks to their authors:
+
+[https://stackoverflow.com/questions/32163436/python-decorator-for-printing-every-line-executed-by-a-function](https://stackoverflow.com/questions/32163436/python-decorator-for-printing-every-line-executed-by-a-function)
+
+[https://stackoverflow.com/questions/22362940/inspect-code-of-next-line-in-python](https://stackoverflow.com/questions/22362940/inspect-code-of-next-line-in-python)
