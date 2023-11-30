@@ -1,16 +1,19 @@
-# tracelogger
+# Tracelogger
 
 Tag your functions with the `@tracelogger` decorator to be logged line-by-line.
 Optionally add a list of names of local variables whose values will be printed with each line.
 
 ```
+from tracelogger import tracelogger, names_printer
+
+
 @tracelogger
 def second_test_function(x):
     y = x**2
     return y
 
 
-@tracelogger(names=['b', 'k'])
+@tracelogger(printer=lambda locals_: names_printer(locals_=locals_, names=['k', 'b']), width=30)
 def first_test_function(a, b):
     c = a + b
     for k in range(5):

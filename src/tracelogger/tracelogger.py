@@ -2,10 +2,24 @@ import sys
 from traceback import linecache
 
 
+def default_printer(locals_):
+    return ', '.join([f'{k}={v}' for k, v in locals_.items()])
+
+
+def names_printer(locals_, names):
+    return ', '.join([f'{k}={v}' for k, v in locals_.items() if k in names])
+
+
+def multiline_printer(locals_, width=80):
+    s = ' ' * width
+    return '\n' + '\n'.join([f'{s}{k}={v}' for k, v in locals_.items()]) + '\n'
+
+
 class trace_context:
-    def __init__(self, name, names=None):
+    def __init__(self, name, printer=None, width=None):
         self.name = name
-        self.names = names
+        self.printer = printer or default_printer
+        self.width = width or 80
         self.old_trace = None
 
     def __enter__(self):
@@ -25,16 +39,16 @@ class trace_context:
         if event not in ['line', 'return']:
             return
         line = linecache.getline(frame.f_code.co_filename, frame.f_lineno, frame.f_globals).rstrip()
-        locals_ = {k: v for k, v in frame.f_locals.items() if self.names is None or k in self.names}
-        locals_ = ', '.join([f'{k}={v}' for k, v in locals_.items()])
-        print(f'{line.ljust(40)} locals: {locals_}')
+        print(f'{line.ljust(self.width)}locals: {self.printer(frame.f_locals)}')
         if event == 'return':
             prev_name = f'{self.old_trace.__self__.name}()' if self.old_trace else 'None'
             print(f'Returning from: {self.name}() to: {prev_name}\n')
 
 
 def tracelogger(*args, **kwargs):
-    if len(args) == 1 and callable(args[0]) and not kwargs:
+    if len(set(kwargs.keys()) - {'printer', 'width'}) > 0:
+        raise ValueError('Unknown parameter(s)')
+    if len(kwargs) == 0:
         func = args[0]
 
         def decorated_func(*func_args, **func_kwargs):
@@ -47,8 +61,9 @@ def tracelogger(*args, **kwargs):
 
         def wrapper(func):
             def decorated_func(*func_args, **func_kwargs):
-                names = kwargs.get('names', args[0] if args else None)
-                with trace_context(func.__name__, names=names):
+                printer = kwargs.get('printer', args[0] if args else None)
+                width = kwargs.get('width', args[1] if args and len(args) > 1 else None)
+                with trace_context(func.__name__, printer=printer, width=width):
                     return_value = func(*func_args, **func_kwargs)
                 return return_value
 
