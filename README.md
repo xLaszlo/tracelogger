@@ -1,13 +1,16 @@
 # Tracelogger
 
 Tag your functions with the `@tracelogger` decorator to be logged line-by-line.
-Optionally add a list of names of local variables whose values will be printed with each line.
+
+Optionally provide a function as the `printer` argument that takes the local variable dictionary and returns a string. This allows the customisation of which variables and how you want to print at each line. See the example with the provided `names_printer` function that only prints a selected set of variables.
+
+The second `width` parameter determines the maximum character number for each line of code defaulting to `80`.
 
 ```
 from tracelogger import tracelogger, names_printer
 
 
-@tracelogger
+@tracelogger(width=30)
 def second_test_function(x):
     y = x**2
     return y
