@@ -1,11 +1,13 @@
 [tool.poetry]
 name = "tracelogger"
 version = "0.1.2"
-description = ""
+description = "Print each local variable and line of code at execution"
 authors = ["Laszlo Sragner <sragner@gmail.com>"]
 readme = "README.md"
 license = "MIT"
 packages = [{include = "tracelogger", from = "src"}]
+homepage = "https://github.com/xLaszlo/tracelogger"
+documentation = "https://github.com/xLaszlo/tracelogger"
 
 [tool.poetry.dependencies]
 python = "^3.9"
