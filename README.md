@@ -1,5 +1,7 @@
 # Tracelogger
 
+I wrote this before I learnt about *Snoop*: [https://github.com/alexmojaki/snoop](https://github.com/alexmojaki/snoop) a much polished version of the same concept and implementation with an additional set of debug tools.
+
 Tag your functions with the `@tracelogger` decorator to be logged line-by-line.
 
 Optionally provide a function as the `printer` argument that takes the local variable dictionary and returns a string. This allows the customisation of which variables and how you want to print at each line. See the example with the provided `names_printer` function that only prints a selected set of variables.
